@@ -132,7 +132,7 @@ def security_headers(response):
         "img-src 'self' https://openweathermap.org https://lh3.googleusercontent.com data:; "
         "style-src 'self' https://fonts.googleapis.com; "
         "font-src 'self' https://fonts.gstatic.com; "
-        "script-src 'self'; connect-src 'self'; "
+        "script-src 'self'; connect-src 'self' https://openweathermap.org; "
         "frame-ancestors 'none'; base-uri 'self'"
     )
     if request.path.startswith("/api/"):
