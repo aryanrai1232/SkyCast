@@ -122,18 +122,23 @@ def manifest():
                                mimetype="application/manifest+json")
 
 
+
 @app.after_request
 def security_headers(response):
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["Referrer-Policy"] = "same-origin"
     response.headers["Content-Security-Policy"] = (
-        "default-src 'self'; img-src 'self' https://openweathermap.org data:; "
-        "style-src 'self'; script-src 'self'; connect-src 'self'; "
+        "default-src 'self'; "
+        "img-src 'self' https://openweathermap.org https://lh3.googleusercontent.com data:; "
+        "style-src 'self' https://fonts.googleapis.com; "
+        "font-src 'self' https://fonts.gstatic.com; "
+        "script-src 'self'; connect-src 'self'; "
         "frame-ancestors 'none'; base-uri 'self'"
     )
     if request.path.startswith("/api/"):
         response.headers["Cache-Control"] = "no-store"
     return response
+
 
 
 if __name__ == "__main__":
