@@ -1,3 +1,4 @@
+HEAD
 # SkyCast Web
 
 Weather website + installable phone app (PWA). Flask backend hides your API key.
@@ -30,3 +31,6 @@ Browser (static/app.js)  ->  /api/weather  ->  app.py  ->  OpenWeatherMap
 | `static/style.css`, `static/app.js` | design and behavior |
 | `static/sw.js`, `static/manifest.webmanifest`, `static/icons/` | makes it installable + offline |
 | `Procfile`, `render.yaml`, `requirements.txt` | hosting setup |
+=======
+# SkyCast
+7384ddff0382b5efcc8f9af6f0893743b49dd054
