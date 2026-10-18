@@ -1,0 +1,258 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#09112f">
+  <meta name="description" content="SkyCast Pro — live weather and forecasts.">
+  <title>SkyCast Pro — Weather Dashboard</title>
+
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/static/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="/static/style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Material+Symbols+Outlined:FILL@0..1&display=swap" rel="stylesheet">
+
+  <script src="/static/theme.js"></script>
+</head>
+<body data-weather="default">
+  <div class="app-shell">
+
+    <aside class="sidebar">
+      <a class="brand" href="#home" aria-label="SkyCast home">
+        <span class="brand-logo">
+          <span class="material-symbols-outlined filled">wb_sunny</span>
+          <span class="brand-cloud material-symbols-outlined filled">cloud</span>
+        </span>
+        <span class="brand-copy">
+          <span class="brand-name">SkyCast <span class="pro-badge">PRO</span></span>
+          <span class="brand-tagline">Know the weather, plan your day</span>
+        </span>
+      </a>
+
+      <p class="side-label">WORKSPACE</p>
+      <nav class="side-nav" aria-label="Main navigation">
+        <a class="nav-link active" href="#home">
+          <span class="material-symbols-outlined filled">home</span> Home
+        </a>
+        <a class="nav-link" href="#favorites">
+          <span class="material-symbols-outlined">star</span> Favorites
+        </a>
+        <a class="nav-link" href="#hourly-section">
+          <span class="material-symbols-outlined">history</span> Hourly forecast
+        </a>
+        <a class="nav-link" href="#daily-section">
+          <span class="material-symbols-outlined">calendar_month</span> 5-day forecast
+        </a>
+        <button class="nav-link nav-install" id="installBtn" type="button" hidden>
+          <span class="material-symbols-outlined">download</span> Install app
+        </button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="install-promo">
+          <span class="promo-icon material-symbols-outlined">smartphone</span>
+          <h3>Take SkyCast with you</h3>
+          <p>Install the app for quick access to your weather.</p>
+          <p class="promo-hint">Use the Install app option when available.</p>
+        </div>
+        <p class="sidebar-footer">Made with <span>♥</span> by SkyCast</p>
+      </div>
+    </aside>
+
+    <main class="dashboard" id="home">
+      <header class="topbar">
+        <div class="heading-copy">
+          <p class="eyebrow">WEATHER INTELLIGENCE</p>
+          <h1>Your weather dashboard</h1>
+          <p class="page-subtitle">Live conditions. Better plans.</p>
+        </div>
+
+        <div class="top-actions">
+          <button class="btn icon-btn" id="locBtn" type="button"
+                  aria-label="Use my location" title="Use my location">
+            <span class="material-symbols-outlined">near_me</span>
+          </button>
+          <button class="btn icon-btn" id="themeBtn" type="button"
+                  aria-label="Toggle light or dark mode" title="Toggle theme">🌙</button>
+        </div>
+      </header>
+
+      <form id="searchForm" class="search-bar" autocomplete="off">
+        <span class="material-symbols-outlined search-symbol">search</span>
+        <input id="q" type="search" maxlength="80"
+               placeholder="Search for a city... (e.g. Delhi, London, Tokyo)"
+               aria-label="City name" enterkeyhint="search">
+        <button class="btn search-submit" type="submit">
+          Search weather <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
+      </form>
+
+      <div class="toolbar">
+        <div class="favorite-control" id="favorites">
+          <span class="toolbar-label">SAVED CITIES</span>
+          <div class="favorite-row">
+            <select id="favSelect" aria-label="Favorite cities"></select>
+            <button class="btn icon-btn star-button" id="starBtn" type="button"
+                    aria-label="Add to favorites" aria-pressed="false" title="Toggle favorite">
+              <span class="material-symbols-outlined">star</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="unit-control">
+          <span class="toolbar-label">TEMPERATURE UNIT</span>
+          <div class="unit-switch" role="group" aria-label="Temperature units">
+            <button id="unitC" type="button" aria-pressed="true">°C</button>
+            <button id="unitF" type="button" aria-pressed="false">°F</button>
+          </div>
+        </div>
+      </div>
+
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+
+      <section id="empty" class="empty-state glass-panel">
+        <span class="empty-weather material-symbols-outlined filled">partly_cloudy_day</span>
+        <p class="eyebrow">WELCOME TO SKYCAST</p>
+        <h2>Weather at a glance.</h2>
+        <p>Search for a city or use your location to see live conditions and forecasts.</p>
+      </section>
+
+      <div id="weather" hidden>
+        <div class="dashboard-grid">
+          <section class="hero-card glass-panel">
+            <div class="hero-atmosphere"></div>
+            <div class="hero-top">
+              <div class="hero-details">
+                <div class="live-label">
+                  <span class="live-dot"></span>
+                  CURRENT CONDITIONS
+                </div>
+                <h2 id="city">Your city</h2>
+                <p id="desc" class="weather-description">Current weather</p>
+
+                <div class="temperature-row">
+                  <div id="temp" class="hero-temperature">--°</div>
+                  <div class="temperature-caption">
+                    <span>LIVE</span>
+                    <span>TEMPERATURE</span>
+                  </div>
+                </div>
+                <p class="hero-note">Live weather for your selected location.</p>
+              </div>
+
+              <div class="hero-art" aria-label="Current weather illustration">
+                <div class="art-glow"></div>
+                <img class="hero-art-image"
+                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnJdlduh-KCGMU6br92fLXkuMCjunApkICe1Jx8lGv3vll_NzaTFzVseqTYS2dWYEweNVug2z-iMxWlfjU0oK5Yn1UlqJH0Z79XpNZKFCUEaMNzDB9ZpptNcuv__uVxp7SZONC3pSapXRptQy38fpcBfoww2Ic7Fx6EBvGBSYfiH1FPWXrBAfnT6EY2D2GtBmQ6MGHCmqyciwrXr9ClEERoQ5v5P-PRa6REZTqmypkaJqmFW8YcRs0RA"
+                     alt="" onerror="this.style.display='none'">
+                <div class="hero-live-icon">
+                  <img id="heroIcon" src="" alt="Current weather condition" width="120" height="120">
+                </div>
+              </div>
+            </div>
+
+            <div class="hero-divider"></div>
+            <div id="stats" class="stats-grid" aria-label="Weather details"></div>
+          </section>
+
+          <div class="side-cards">
+            <section class="glass-panel info-card">
+              <div class="card-title-row">
+                <span class="card-icon sunrise-icon material-symbols-outlined filled">wb_twilight</span>
+                <div>
+                  <p class="eyebrow">DAYLIGHT</p>
+                  <h3>Sunrise &amp; sunset</h3>
+                </div>
+              </div>
+              <p class="card-description">Local solar times for this location.</p>
+              <div class="sun-times" id="sunTimes">
+                <div class="sun-time">
+                  <span class="sun-symbol material-symbols-outlined filled">wb_sunny</span>
+                  <strong id="sunriseValue">--:--</strong>
+                  <span>Sunrise</span>
+                </div>
+                <div class="sun-time">
+                  <span class="sun-symbol sunset-symbol material-symbols-outlined filled">nights_stay</span>
+                  <strong id="sunsetValue">--:--</strong>
+                  <span>Sunset</span>
+                </div>
+              </div>
+              <p class="data-note">Times are supplied by the weather service.</p>
+            </section>
+
+            <section class="glass-panel info-card">
+              <div class="card-title-row">
+                <span class="card-icon air-icon material-symbols-outlined">air</span>
+                <div>
+                  <p class="eyebrow">ENVIRONMENT</p>
+                  <h3>Air quality &amp; UV</h3>
+                </div>
+              </div>
+              <div class="unavailable-data">
+                <span class="material-symbols-outlined">sensors</span>
+                <div>
+                  <strong>Sensor data not connected</strong>
+                  <p>AQI and UV readings will appear when a live data source is configured.</p>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <div class="forecast-grid">
+          <section class="glass-panel forecast-card" id="hourly-section">
+            <div class="card-heading">
+              <div class="card-title-row">
+                <span class="card-icon material-symbols-outlined">schedule</span>
+                <div>
+                  <p class="eyebrow">PLAN YOUR DAY</p>
+                  <h2>Hourly forecast</h2>
+                </div>
+              </div>
+              <span class="small-chip">UPCOMING HOURS</span>
+            </div>
+            <p class="card-description">Temperature and precipitation outlook by hour.</p>
+            <div id="hourly" class="hourly-list" aria-label="Hourly weather forecast"></div>
+          </section>
+
+          <section class="glass-panel forecast-card" id="daily-section">
+            <div class="card-heading">
+              <div class="card-title-row">
+                <span class="card-icon material-symbols-outlined">calendar_month</span>
+                <div>
+                  <p class="eyebrow">THE DAYS AHEAD</p>
+                  <h2>5-day forecast</h2>
+                </div>
+              </div>
+            </div>
+            <p class="card-description">A quick look at the upcoming weather.</p>
+            <ul id="daily" class="daily-list" aria-label="Five-day weather forecast"></ul>
+          </section>
+        </div>
+
+        <section class="weather-alert glass-panel">
+          <span class="alert-symbol material-symbols-outlined filled">info</span>
+          <div>
+            <h3>Weather alerts</h3>
+            <p>Official weather alerts are not connected yet. Check your local weather authority for active warnings.</p>
+          </div>
+        </section>
+
+        <p id="updated" class="updated"></p>
+      </div>
+
+      <footer class="page-footer">
+        <span><span class="footer-sun material-symbols-outlined filled">wb_sunny</span> SkyCast Pro</span>
+        <span>Weather data by OpenWeatherMap</span>
+      </footer>
+    </main>
+  </div>
+
+  <script src="/static/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: skycast
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --workers 1 --threads 8 --timeout 30
+    healthCheckPath: /healthz
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+      - key: OPENWEATHER_API_KEY
+        sync: false   # you type the real key in the Render dashboard
